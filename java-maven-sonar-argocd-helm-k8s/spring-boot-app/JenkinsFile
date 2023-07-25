@@ -33,7 +33,7 @@ pipeline {
       environment {
         DOCKER_IMAGE = "writetoritika/ultimate-cicd:${BUILD_NUMBER}"
         // DOCKERFILE_LOCATION = "java-maven-sonar-argocd-helm-k8s/spring-boot-app/Dockerfile"
-        REGISTRY_CREDENTIALS = credentials('docker-cred')
+        REGISTRY_CREDENTIALS = credentials('docker')
       }
       steps {
         script {
@@ -48,13 +48,13 @@ pipeline {
     stage('Update Deployment File') {
         environment {
             GIT_REPO_NAME = "Jenkins-Zero-To-Hero"
-            GIT_USER_NAME = "writetoritika"
+            GIT_USER_NAME = "zhengk11"
         }
         steps {
             withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
                 sh '''
                     git config user.email "writetoritika@gmail.com"
-                    git config user.name "Ritika Malhotra"
+                    git config user.name "zhengk11"
                     BUILD_NUMBER=${BUILD_NUMBER}
                     sed -i "s/replaceImageTag/${BUILD_NUMBER}/g" java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
                     git add java-maven-sonar-argocd-helm-k8s/spring-boot-app-manifests/deployment.yml
